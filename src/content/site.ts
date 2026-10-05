@@ -1,7 +1,12 @@
 // Business facts. Single source for the page copy, structured data, llms.txt and OG images.
 // Sources: Data.md (live site and OpenTable, scraped 5 October 2026).
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.theconsulateatlanta.com').replace(/\/$/, '');
+const LIVE = process.env.SITE_LIVE === 'true';
+const PRODUCTION_DOMAIN = 'https://www.theconsulateatlanta.com';
+// On Vercel, concept builds use the deployment's own URL so canonicals and share images resolve;
+// a live build uses the restaurant's domain. NEXT_PUBLIC_SITE_URL overrides both.
+const VERCEL_HOST = process.env.VERCEL_ENV === 'production' ? process.env.VERCEL_PROJECT_PRODUCTION_URL : process.env.VERCEL_URL;
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || (!LIVE && VERCEL_HOST ? `https://${VERCEL_HOST}` : PRODUCTION_DOMAIN)).replace(/\/$/, '');
 
 export const site = {
   name: 'The Consulate',
@@ -10,7 +15,7 @@ export const site = {
   url: SITE_URL,
   // Concept mode (the default) keeps the build out of search engines and shows the
   // "redesign concept" line in the footer. Set SITE_LIVE=true on the production deploy.
-  live: process.env.SITE_LIVE === 'true',
+  live: LIVE,
 
   address: {
     street: '10 10th St NW, P200',

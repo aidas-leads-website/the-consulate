@@ -3,6 +3,11 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   poweredByHeader: false,
 
+  // Share images read their fonts from disk; keep them in the serverless bundle on Vercel.
+  outputFileTracingIncludes: {
+    '/**/opengraph-image': ['./assets/fonts/**'],
+  },
+
   // S3: the old Squarespace paths keep their links and search equity.
   async redirects() {
     return [
