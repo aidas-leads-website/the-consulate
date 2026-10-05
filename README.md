@@ -8,12 +8,20 @@ npm run dev        # http://localhost:3000
 npm run build && npm start
 ```
 
+## Deploying on Vercel
+
+Import the repo in Vercel (Add New → Project). The framework preset is detected as Next.js, and no settings or `vercel.json` are needed. Every page, share image, `robots.txt`, `sitemap.xml` and `llms.txt` is prerendered at build time.
+
+Concept deploys need no environment variables: canonicals and share images use the deployment's own `*.vercel.app` URL, and the site stays `noindex`.
+
+To launch, set `SITE_LIVE=true` for the Production environment, add the restaurant's domain under Domains, and redeploy.
+
 ## Going live
 
 | Variable | Default | Set on production |
 | --- | --- | --- |
 | `SITE_LIVE` | unset: concept mode | `true` |
-| `NEXT_PUBLIC_SITE_URL` | `https://www.theconsulateatlanta.com` | the real domain, if different |
+| `NEXT_PUBLIC_SITE_URL` | the Vercel deployment URL in concept mode, otherwise `https://www.theconsulateatlanta.com` | the real domain, if different |
 
 **Concept mode** is the default. The site sets `noindex`, `robots.txt` disallows everything, and the footer says "Redesign concept, not the official site". Preview deploys therefore never compete with the restaurant's real listing. Set `SITE_LIVE=true` only on the deploy that replaces theconsulateatlanta.com.
 
